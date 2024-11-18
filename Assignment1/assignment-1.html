@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="assignment-1.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Unit Converter</h1>
+        <div class="converter">
+            <label for="value">Enter Value:</label>
+            <input type="number" id="value" placeholder="Enter a value">
+            
+            <label for="conversionType">Select Conversion:</label>
+            <select id="conversionType">
+                <option value="f-to-c">Fahrenheit to Celsius</option>
+                <option value="c-to-f">Celsius to Fahrenheit</option>
+                <option value="m-to-ft">Meters to Feet</option>
+                <option value="ft-to-m">Feet to Meters</option>
+            </select>
+
+            <button onclick="convert()">Convert</button>
+           
+        </div>
+        <p id="result"></p>
+    </div>
+    <script src="assignment-1.js"></script>
+</body>
+</html>
