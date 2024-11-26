@@ -1,29 +1,56 @@
 document.addEventListener("DOMContentLoaded", function () {
     const addBtn = document.getElementById("add-btn");
     const deleteBtn = document.getElementById("delete-btn");
-    const employeeNameInput = document.getElementById("employee-name");
-    const daysWorkedInput = document.getElementById("days-worked");
-    const dailyRateInput = document.getElementById("daily-rate");
-    const deductionAmountInput = document.getElementById("deduction-amount");
+    const deleteConfirmModal = document.getElementById("delete-confirm-modal");
+    const areYouSureModal = document.getElementById("are-you-sure-modal");
+    const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+    const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+    const finalConfirmBtn = document.getElementById("final-confirm-btn");
+    const finalCancelBtn = document.getElementById("final-cancel-btn");
     const deleteLineNumberInput = document.getElementById("delete-line-number");
     const payrollTableBody = document.querySelector("#payroll-table tbody");
 
-    // Payroll list to store employee details
     let payrollList = [];
+    let pendingDeleteIndex = null;
 
-    // Function to calculate Gross Pay
-    function calculateGrossPay(daysWorked, dailyRate) {
-        return daysWorked * dailyRate;
-    }
+    deleteBtn.addEventListener("click", () => {
+        const lineNumber = parseInt(deleteLineNumberInput.value, 10);
 
-    // Function to calculate Net Pay
-    function calculateNetPay(grossPay, deductionAmount) {
-        return grossPay - deductionAmount;
-    }
+        if (!isNaN(lineNumber) && lineNumber > 0 && lineNumber <= payrollList.length) {
+            pendingDeleteIndex = lineNumber - 1;
+            deleteConfirmModal.style.display = "flex";
+        } else {
+            alert("Invalid line number. Please enter a valid number.");
+        }
+    });
 
-    // Function to render the payroll table
+    confirmDeleteBtn.addEventListener("click", () => {
+        deleteConfirmModal.style.display = "none";
+        areYouSureModal.style.display = "flex"; 
+    });
+
+    cancelDeleteBtn.addEventListener("click", () => {
+        deleteConfirmModal.style.display = "none";
+        pendingDeleteIndex = null;
+    });
+
+    finalConfirmBtn.addEventListener("click", () => {
+        if (pendingDeleteIndex !== null) {
+            payrollList.splice(pendingDeleteIndex, 1);w
+            renderPayrollTable();
+        }
+        areYouSureModal.style.display = "none";
+        deleteLineNumberInput.value = "";
+        pendingDeleteIndex = null;
+    });
+
+    finalCancelBtn.addEventListener("click", () => {
+        areYouSureModal.style.display = "none";
+        pendingDeleteIndex = null;
+    });
+
     function renderPayrollTable() {
-        payrollTableBody.innerHTML = ""; // Clear existing rows
+        payrollTableBody.innerHTML = "";
         payrollList.forEach((employee, index) => {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -38,55 +65,4 @@ document.addEventListener("DOMContentLoaded", function () {
             payrollTableBody.appendChild(row);
         });
     }
-
-    // Function to add a new employee
-    function addEmployee() {
-        const name = employeeNameInput.value.trim();
-        const daysWorked = parseInt(daysWorkedInput.value, 10);
-        const dailyRate = parseFloat(dailyRateInput.value);
-        const deductionAmount = parseFloat(deductionAmountInput.value);
-
-        if (name && !isNaN(daysWorked) && !isNaN(dailyRate) && !isNaN(deductionAmount)) {
-            const grossPay = calculateGrossPay(daysWorked, dailyRate);
-            const netPay = calculateNetPay(grossPay, deductionAmount);
-
-            // Add employee details to the payroll list
-            const newEmployee = {
-                name,
-                daysWorked,
-                dailyRate,
-                grossPay,
-                deductionAmount,
-                netPay
-            };
-            payrollList.push(newEmployee);
-            renderPayrollTable(); // Update the table
-        } else {
-            alert("Please fill in all fields with valid values.");
-        }
-
-        // Clear input fields
-        employeeNameInput.value = "";
-        daysWorkedInput.value = "";
-        dailyRateInput.value = "";
-        deductionAmountInput.value = "";
-    }
-
-    // Function to delete an employee by line number
-    function deleteEmployee() {
-        const lineNumber = parseInt(deleteLineNumberInput.value, 10);
-
-        if (!isNaN(lineNumber) && lineNumber > 0 && lineNumber <= payrollList.length) {
-            payrollList.splice(lineNumber - 1, 1); // Remove the selected employee
-            renderPayrollTable(); // Update the table
-        } else {
-            alert("Invalid line number. Please enter a valid number.");
-        }
-
-        deleteLineNumberInput.value = ""; // Clear input field
-    }
-
-    // Event listeners for buttons
-    addBtn.addEventListener("click", addEmployee);
-    deleteBtn.addEventListener("click", deleteEmployee);
 });
