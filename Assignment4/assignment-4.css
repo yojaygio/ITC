@@ -2,80 +2,85 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 0;
+    background-color: #f9f9f9;
 }
 
-h1 {
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2 {
     text-align: center;
     color: #333;
 }
 
-/* Align inputs and labels to the left */
-div {
-    display: flex;
-    justify-content: flex-start; /* Align content to the left */
-    flex-wrap: wrap; /* Wrap inputs to the next line on smaller screens */
-    margin: 10px 0;
-    gap: 10px; /* Add spacing between elements */
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-label {
-    margin: 5px;
+form label {
+    grid-column: span 2;
+    margin-bottom: 5px;
     font-weight: bold;
-    text-align: left;
 }
 
-input {
-    margin: 5px;
-    padding: 5px;
+form input {
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    min-width: 150px; /* Ensure inputs have a readable width */
 }
 
-button {
-    margin: 5px;
-    padding: 8px 12px;
+form button {
+    grid-column: span 2;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 4px;
-    background-color: #ffb300;
-    color: white;
     cursor: pointer;
-    font-weight: bold;
 }
 
-button:hover {
-    background-color: #ffa305;
+form button:hover {
+    background-color: #0056b3;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-table, th, td {
-    border: 1px solid black;
-}
-
-th {
-    background-color: #f4f4f4;
+table th, table td {
     padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
-td {
-    padding: 8px;
-    text-align: center;
+table th {
+    background-color: #f2f2f2;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    div {
-        flex-direction: column; /* Stack inputs vertically on smaller screens */
-        align-items: flex-start; /* Maintain left alignment */
-    }
-
-    input, button {
-        width: 100%; /* Make inputs and buttons take full width on smaller screens */
-    }
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
+button.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+button.delete-btn:hover {
+    background-color: #a71d2a;
+}
